@@ -1,0 +1,7 @@
+
+Scsharpsquid:S11250"*Remove the unnecessary Boolean literal(s).(õ‹Šèÿÿÿÿÿ8ÆÅ€†²1
+Ncsharpsquid:S11256"*Remove the unnecessary Boolean literal(s).(ŽìÔý8³ñ¥‡²1
+Xcsharpsquid:S3903"4Move 'RequiredScriptsSprint' into a named namespace.(…Ÿñç8ÇÅ€†²1
+Tcsharpsquid:S3903"+Move 'SprintModule' into a named namespace.(¹Ã­ëýÿÿÿÿ8ÇÅ€†²1
+Scsharpsquid:S1481
+"*Remove the unused local variable 'script'.(ýƒøõûÿÿÿÿ8ÇÅ€†²1

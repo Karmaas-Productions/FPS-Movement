@@ -1,0 +1,9 @@
+
+Ncsharpsquid:S1125Ì"*Remove the unnecessary Boolean literal(s).(ò—´h8°åş†²1
+{csharpsquid:S3776q"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(é¼”²şÿÿÿÿ8’ÚŸ†²1
+^csharpsquid:S3903"5Move 'RequiredScriptsWallRun' into a named namespace.(ĞÇö‡şÿÿÿÿ8Ô‰®ä±1
+Ucsharpsquid:S3903",Move 'WallRunModule' into a named namespace.(¶¤®Óúÿÿÿÿ8™…‹¸±1
+csharpsquid:S2583V"eChange this condition so that it does not always evaluate to 'True'. Some code paths are unreachable.(åÓˆÍşÿÿÿÿ8’ÚŸ†²1
+Scsharpsquid:S1481"*Remove the unused local variable 'script'.(øêııÿÿÿÿ8Ô‰®ä±1
+]csharpsquid:S1481C"4Remove the unused local variable 'wallRunDirection'.(åÓˆÍşÿÿÿÿ8’ÚŸ†²1
+^csharpsquid:S1481¶"4Remove the unused local variable 'wallRunDirection'.(åÓˆÍşÿÿÿÿ8’ÚŸ†²1
