@@ -19,8 +19,10 @@ public class RequiredScriptsCrouch : Editor
 
 public class CrouchModule : MonoBehaviour
 {
-    [Header("Customize")]
     
+#region Variables
+    
+    [Header("Customize")]
     [SerializeField] [Tooltip("Speed value for movement speed when crouching. The recommended value is 10.")]
     private float crouchMoveSpeed;
     
@@ -33,10 +35,13 @@ public class CrouchModule : MonoBehaviour
     [Header("References")]
     [SerializeField] private MovementManager movementManager;
     [SerializeField] private MovementModule movementModule;
+    
+#endregion
 
-    private void Update()
+#region Crouch
+
+    private void FixedUpdate()
     {
-        if (movementManager.useDebug) Debug.Log("Update method called");
         if (!movementManager.isSprinting)
         {
             if (movementManager.isCrouching)
@@ -49,10 +54,9 @@ public class CrouchModule : MonoBehaviour
             }
         }
     }
-
+    
     private void Crouch()
     {
-        if (movementManager.useDebug) Debug.Log("Crouch method called");
         movementModule.moveSpeed = crouchMoveSpeed;
         movementModule.maxSpeed = crouchMaxSpeed;
 
@@ -60,28 +64,28 @@ public class CrouchModule : MonoBehaviour
 
         movementManager.rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
     }
-
+    
     private void StopCrouch()
     {
-        if (movementManager.useDebug) Debug.Log("StopCrouch method called");
         movementModule.moveSpeed = movementModule.normalMoveSpeed;
         movementModule.maxSpeed = movementModule.normalMaxSpeed;
 
         movementManager.orientation.localScale = new Vector3(1, movementManager.playerHeight, 1);
     }
-
+    
     public void StartCrouch(InputAction.CallbackContext context)
     {
         if (movementManager.canCrouch)
         {
             movementManager.isCrouching = true;
-            if (movementManager.useDebug) Debug.Log("StartCrouch method called");
         }
     }
-
+    
     public void StopCrouch(InputAction.CallbackContext context)
     {
         movementManager.isCrouching = false;
-        if (movementManager.useDebug) Debug.Log("StopCrouch method called");
     }
+    
+#endregion
+
 }

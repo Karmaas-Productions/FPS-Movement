@@ -19,8 +19,10 @@ public class RequiredScriptsSprint : Editor
 
 public class SprintModule : MonoBehaviour
 {
-    [Header("Customize")]
     
+#region Variables
+
+    [Header("Customize")]
     [Tooltip("The value used to set how fast you move while sprinting. The recommended value is 25")]
     [SerializeField] private float sprintMoveSpeed;
     
@@ -30,20 +32,12 @@ public class SprintModule : MonoBehaviour
     [Header("References")]
     [SerializeField] private MovementManager movementManager;
     [SerializeField] private MovementModule movementModule;
+    
+#endregion
 
-    public void StartSprint(InputAction.CallbackContext context)
-    {
-        movementManager.isSprinting = true;
-        if (movementManager.useDebug) Debug.Log("StartSprint called.");
-    }
+#region Sprint
 
-    public void StopSprint(InputAction.CallbackContext context)
-    {
-        movementManager.isSprinting = false;
-        if (movementManager.useDebug) Debug.Log("StopSprint called.");
-    }
-
-    private void Update()
+    private void FixedUpdate()
     {
         if (movementManager.isCrouching == false)
         {
@@ -56,20 +50,30 @@ public class SprintModule : MonoBehaviour
                 StopSprint();
             }
         }
-        if (movementManager.useDebug) Debug.Log("Update called.");
     }
 
+    public void StartSprint(InputAction.CallbackContext context)
+    {
+        movementManager.isSprinting = true;
+    }
+    
+    public void StopSprint(InputAction.CallbackContext context)
+    {
+        movementManager.isSprinting = false;
+    }
+    
     private void Sprint()
     {
         movementModule.moveSpeed = sprintMoveSpeed;
         movementModule.maxSpeed = sprintMaxSpeed;
-        if (movementManager.useDebug) Debug.Log("Sprint called.");
     }
-
+    
     private void StopSprint()
     {
         movementModule.moveSpeed = movementModule.normalMoveSpeed;
         movementModule.maxSpeed = movementModule.normalMaxSpeed;
-        if (movementManager.useDebug) Debug.Log("StopSprint called.");
     }
+    
+#endregion
+
 }

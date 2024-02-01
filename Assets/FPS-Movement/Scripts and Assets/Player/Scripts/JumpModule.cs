@@ -20,7 +20,9 @@ public class RequiredScriptsJump : UnityEditor.Editor
 
 public class JumpModule : MonoBehaviour
 {
-    // Serialized private variables
+    
+#region Variables
+    
     [Header("Customize")]
     [Tooltip("The force applied to the player when they jump. The recommended value is 5.")]
     [SerializeField] private float jumpForce;
@@ -33,44 +35,33 @@ public class JumpModule : MonoBehaviour
     
     [Tooltip("The layer used to tell the script what the ground is. Set this to the layer that your ground is on.")]
     [SerializeField] private LayerMask groundLayer;
-
-    // Serialized private variables
+    
     [Header("Private Variables")]
     [SerializeField] private int jumpsRemaining;
     [SerializeField] private float lastJumpTime;
-
-    // Serialized private reference
+    
     [Header("References")]
     [SerializeField] private MovementManager movementManager;
+    
+#endregion
+
+#region Jump
 
     private void Start()
     {
         ResetJumps();
     }
 
-    // Resets the number of jumps remaining to the maximum number of jumps.
     private void ResetJumps()
     {
         jumpsRemaining = maxJumps;
     }
-
-    // Checks if the player has touched the ground, if they have it resets their jumps.
+    
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collided object is in the specified layer
         if ((groundLayer.value & 1 << collision.gameObject.layer) != 0)
         {
-            // Reset jumps remaining
             ResetJumps();
-        }
-    }
-
-    // Debug helper method
-    private void DebugLog(string message)
-    {
-        if (movementManager.useDebug)
-        {
-            Debug.Log(message);
         }
     }
 
@@ -80,9 +71,6 @@ public class JumpModule : MonoBehaviour
         {
             Jump();
         }
-
-        // Debug
-        DebugLog("StartJump method called.");
     }
 
     public void Jump()
@@ -91,11 +79,10 @@ public class JumpModule : MonoBehaviour
         {
             movementManager.rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             jumpsRemaining--;
-
-            // Debug
-            DebugLog("Jump method called.");
         }
 
         lastJumpTime = Time.time;
     }
+    
+#endregion
 }

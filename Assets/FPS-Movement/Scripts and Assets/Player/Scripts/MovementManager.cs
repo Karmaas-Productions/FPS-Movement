@@ -22,6 +22,9 @@ public class RequiredScriptsMovementManager : Editor
 
 public class MovementManager : MonoBehaviour
 {
+
+#region Variables
+
     [Header("Controls")] 
     public PlayerMovementInput playerInput;
     private InputAction crouch;
@@ -54,11 +57,11 @@ public class MovementManager : MonoBehaviour
     
     [Header("Info")]
     public bool isGrounded;
-    public float playerHeight;
     public bool useDebug;
     
     [Header("Customize")]
     public float groundRaycastLength;
+    public float playerHeight;
     
     [Header("State Machine")]
     public bool isClimbing;
@@ -75,9 +78,10 @@ public class MovementManager : MonoBehaviour
     public bool canCrouch = true;
     public bool canJump = true;
     public bool canWalk = true;
+    
+#endregion
 
-
-    #region  Player Input
+#region  Player Input
 
     private void Start()
     {
@@ -139,9 +143,9 @@ public class MovementManager : MonoBehaviour
         climb.Disable();
     }
 
-    #endregion
+#endregion
 
-    #region Ground Check
+#region Ground Check
     
     void Update()
     {
@@ -156,5 +160,6 @@ public class MovementManager : MonoBehaviour
         }
     }
 
-    #endregion
+#endregion
+
 }

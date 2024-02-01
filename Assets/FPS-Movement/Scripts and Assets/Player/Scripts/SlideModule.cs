@@ -19,6 +19,9 @@ public class RequiredScriptsSlide : Editor
 
 public class SlideModule : MonoBehaviour
 {
+    
+#region Variables
+
     [Header("Customize")]
     [Tooltip("The value used to set how fast you move while sliding. The recommended value is 18")]
     [SerializeField] private float slideSpeed;
@@ -31,14 +34,21 @@ public class SlideModule : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private MovementManager movementManager;
+    
+#endregion
+
+#region Slide
+
+    private void FixedUpdate()
+    {
+        if (movementManager.rb.velocity.magnitude < minSlideSpeed && movementManager.isSliding)
+        {
+            StopSlide();
+        }
+    }
 
     private void Slide()
     {
-        if (movementManager.useDebug)
-        {
-            Debug.Log("Slide method called.");
-        }
-
         movementManager.isSliding = true;
 
         movementManager.orientation.localScale = new Vector3(1, slideHeight, 1);
@@ -54,11 +64,6 @@ public class SlideModule : MonoBehaviour
 
     private void StopSlide()
     {
-        if (movementManager.useDebug)
-        {
-            Debug.Log("StopSlide method called.");
-        }
-
         movementManager.isSliding = false;
 
         movementManager.orientation.localScale = new Vector3(1, movementManager.playerHeight, 1);
@@ -66,36 +71,19 @@ public class SlideModule : MonoBehaviour
         movementManager.canWalk = true;
     }
 
-    private void Update()
-    {
-        if (movementManager.rb.velocity.magnitude < minSlideSpeed && movementManager.isSliding)
-        {
-            if (movementManager.useDebug)
-            {
-                Debug.Log("Update: Stopping slide due to low velocity.");
-            }
-            StopSlide();
-        }
-    }
-
     public void StartSlide(InputAction.CallbackContext context)
     {
         if (movementManager.isSprinting && movementManager.canSlide)
         {
-            if (movementManager.useDebug)
-            {
-                Debug.Log("StartSlide method called.");
-            }
             Slide();
         }
     }
 
     public void StopSlide(InputAction.CallbackContext context)
     {
-        if (movementManager.useDebug)
-        {
-            Debug.Log("StopSlide (InputAction) method called.");
-        }
         StopSlide();
     }
+    
+#endregion
+
 }

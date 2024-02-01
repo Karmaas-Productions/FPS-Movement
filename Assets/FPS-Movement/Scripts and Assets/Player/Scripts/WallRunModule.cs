@@ -21,6 +21,9 @@ public class RequiredScriptsWallRun : Editor
 
 public class WallRunModule : MonoBehaviour
 {
+    
+#region Variables
+    
     [Header("Customize")]
     [Tooltip("The movement speed that the player will reach when wall running. The recommended value is 175.")]
     [SerializeField] private float wallRunSpeed;
@@ -57,45 +60,37 @@ public class WallRunModule : MonoBehaviour
     private bool jumped;
     private bool shoulduseEndWallRun = true;
     private bool useTilt = true;
+    
+#endregion
 
-    // Input action callback to start a wall jump
+#region WallRun
+
     public void StartWallJump(InputAction.CallbackContext context)
     {
         if (wallRight)
         {
-            // Calculate the jump direction based on the wall the player is on
             Vector3 wallRunDirection = wallLeft ? -Vector3.right : Vector3.right;
-
-            // Calculate the desired jump direction to the opposite side of the wall
-            Vector3 jumpDirection = wallLeft ? Vector3.right : -Vector3.right; // Jump in the opposite direction of the wall
-
-            // Reset the player's vertical velocity to achieve a clean jump
+            
+            Vector3 jumpDirection = wallLeft ? Vector3.right : -Vector3.right;
+            
             movementManager.rb.velocity = new Vector3(movementManager.rb.velocity.x, 0, movementManager.rb.velocity.z);
-
-            // Apply a force for the jump in the calculated direction
+            
             movementManager.rb.AddForce(jumpDirection * wallRunJumpForce, ForceMode.Impulse);
-
-            // Set the movementModule to not allow movement while in the air
+            
             ResetJump();
-            if (movementManager.useDebug) Debug.Log("StartWallJump executed for wallRight");
         }
 
         if (wallLeft)
         {
-            // Calculate the jump direction based on the wall the player is on
             Vector3 wallRunDirection = wallLeft ? -Vector3.right : Vector3.right;
-
-            // Calculate the desired jump direction to the opposite side of the wall
+            
             Vector3 jumpDirection = wallRunDirection;
-
-            // Reset the player's vertical velocity to achieve a clean jump
+            
             movementManager.rb.velocity = new Vector3(movementManager.rb.velocity.x, 0, movementManager.rb.velocity.z);
-
-            // Apply a force for the jump in the calculated direction
+            
             movementManager.rb.AddForce(jumpDirection * wallRunJumpForce, ForceMode.Impulse);
 
             ResetJump();
-            if (movementManager.useDebug) Debug.Log("StartWallJump executed for wallLeft");
         }
     }
 
@@ -121,7 +116,7 @@ public class WallRunModule : MonoBehaviour
                 if (!movementManager.isWallRunning)
                 {
                     StartWallRun();
-                    movementManager.canClimb = false; // Disable climbModule when starting wall run
+                    movementManager.canClimb = false;
                 }
             }
             else
@@ -129,7 +124,7 @@ public class WallRunModule : MonoBehaviour
                 if (movementManager.isWallRunning)
                 {
                     StopWallRun();
-                    movementManager.canClimb = true; // Enable climbModule when stopping wall run
+                    movementManager.canClimb = true;
                 }
             }
         }
@@ -138,14 +133,12 @@ public class WallRunModule : MonoBehaviour
             if (movementManager.isWallRunning)
             {
                 StopWallRun();
-                movementManager.canClimb = true; // Enable climbModule when stopping wall run
+                movementManager.canClimb = true;
             }
         }
-
-        // Check if the player is wall running and call DoTilt accordingly
+        
         if (movementManager.isWallRunning)
         {
-            // Calculate the tilt direction based on the wall side
             float tiltDirection = wallLeft ? -wallRunCameraTilt : wallRunCameraTilt;
 
             if (useTilt)
@@ -160,7 +153,7 @@ public class WallRunModule : MonoBehaviour
             jumped = false;
             shoulduseEndWallRun = true;
 
-            movementManager.isWallRunning = false; // Set movementManager.isWallRunning to false when stopping wall run
+            movementManager.isWallRunning = false;
 
             useTilt = true;
 
@@ -170,15 +163,12 @@ public class WallRunModule : MonoBehaviour
 
     void StartWallRun()
     {
-        movementManager.isWallRunning = true; // Set movementManager.isWallRunning to true when starting wall run
+        movementManager.isWallRunning = true;
 
         movementManager.rb.useGravity = false;
 
-        Debug.Log("Starting wall run");
-
         cameraModule.DoFov(wallRunFov);
-
-        // Calculate the wall run direction and desired tilt direction
+        
         Vector3 wallRunDirection = wallLeft ? -Vector3.right : Vector3.right;
         float tiltDirection = wallLeft ? -wallRunCameraTilt : wallRunCameraTilt;
 
@@ -197,7 +187,7 @@ public class WallRunModule : MonoBehaviour
     {
         if (shoulduseEndWallRun)
         {
-            movementManager.isWallRunning = false; // Set movementManager.isWallRunning to false when stopping wall run
+            movementManager.isWallRunning = false;
 
             movementManager.rb.useGravity = true;
 
@@ -207,8 +197,7 @@ public class WallRunModule : MonoBehaviour
             }
 
             cameraModule.DoFov(cameraModule.defaultFov);
-
-            // Re-enable player movement
+            
             movementManager.canWalk = true;
             
             movementManager.canSprint = true;
@@ -239,4 +228,7 @@ public class WallRunModule : MonoBehaviour
         movementModule.moveSpeed = movementModule.normalMoveSpeed;
         movementModule.maxSpeed = movementModule.normalMaxSpeed;
     }
+    
+#endregion
+
 }

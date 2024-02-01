@@ -19,6 +19,9 @@ public class RequiredScriptsClimb : Editor
 
 public class ClimbModule : MonoBehaviour
 {
+    
+#region Variables
+    
     [Header("Customize")]
     [Tooltip("The layer used to tell the script what a wall is. Set this to the layer that your walls are on.")]
     [SerializeField] private LayerMask wallLayer;
@@ -41,28 +44,17 @@ public class ClimbModule : MonoBehaviour
     [Header("Private Variables")]
     private bool isHoldingClimb;
     private bool canJump;
+    
+#endregion
 
-    private void Update()
-    {
-        if (movementManager.useDebug)
-        {
-            Debug.Log("Update method is called.");
-        }
-    }
+#region Climb
 
     private void FixedUpdate()
     {
-        if (movementManager.useDebug)
-        {
-            Debug.Log("FixedUpdate method is called.");
-        }
-
-        // Check for walls continuously
         bool wallDetected = CheckForWall();
 
         if (wallDetected && isHoldingClimb && !movementManager.isClimbing && movementManager.canClimb)
         {
-            // Start climbing if a wall is detected and climb button is held
             movementManager.isClimbing = true;
 
             movementManager.canWalk = false;
@@ -70,15 +62,9 @@ public class ClimbModule : MonoBehaviour
             movementManager.canJump = false;
             movementManager.canWallRun = false;
             movementManager.canJump = true;
-
-            if (movementManager.useDebug)
-            {
-                Debug.Log("Start climbing.");
-            }
         }
         else if (!wallDetected && movementManager.isClimbing)
         {
-            // Stop climbing if no wall is detected
             movementManager.isClimbing = false;
 
             movementManager.canWalk = true;
@@ -86,11 +72,6 @@ public class ClimbModule : MonoBehaviour
             movementManager.canJump = true;
             movementManager.canWallRun = true;
             movementManager.canJump = false;
-
-            if (movementManager.useDebug)
-            {
-                Debug.Log("Stop climbing.");
-            }
         }
         else if (!wallDetected)
         {
@@ -102,7 +83,6 @@ public class ClimbModule : MonoBehaviour
 
         if (movementManager.isClimbing)
         {
-            // Apply climbing force with max speed
             Vector3 climbingForce = Vector3.up * climbingSpeed;
             climbingForce = Vector3.ClampMagnitude(climbingForce, maxClimbingSpeed);
             movementManager.rb.AddForce(climbingForce, ForceMode.Impulse);
@@ -131,11 +111,6 @@ public class ClimbModule : MonoBehaviour
         {
             movementManager.isClimbing = false;
             movementManager.canWalk = true;
-
-            if (movementManager.useDebug)
-            {
-                Debug.Log("Stop climbing.");
-            }
         }
     }
 
@@ -145,11 +120,9 @@ public class ClimbModule : MonoBehaviour
         {
             Vector3 backwardDirection = -movementManager.orientation.forward;
             movementManager.rb.AddForce(backwardDirection * jumpForce, ForceMode.Impulse);
-
-            if (movementManager.useDebug)
-            {
-                Debug.Log("Start climb jump.");
-            }
         }
     }
+    
+#endregion
+
 }
